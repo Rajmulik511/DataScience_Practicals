@@ -1,0 +1,517 @@
+#ASG1=======================================================
+
+import pandas as p
+data={'Name':['Wednesday', 'Lucifer', 'Eleven', 'Betty'],
+'Age':[17, 40, 15, 18],
+'Marks':[65, 72, 89, 94],
+'Gender':['F', 'M', 'F', 'F']
+}
+df=p.DataFrame(data)
+print(df)
+avg=c=0
+for ele in df['Marks']:
+    if str(ele).isnumeric():
+        c+=1
+avg+=ele
+avg/=c
+print('\nAverage marks: ',avg)
+df=df.replace(to_replace=72, value=avg)
+print('\n',df)
+df['Gender'] = df['Gender'].map({'M':0,'F':1}).astype(float)
+print('\n',df)
+df=df.drop(['Age'],axis=1)
+print('\n',df)
+
+#ASG 2============================================================
+
+import pandas as pd
+df=pd.read_csv("xAPI-Edu-Data.csv")
+print(df)
+print('\nColumns: \n',df.columns)
+df.rename(columns={'NationalITy':'Nationality', 'gender':'Gender'},inplace = True)
+print('\n',df)
+# print('\nShape: ',df.shape)
+# print('\nSize: ',df.size)
+# print('\nCount of NA values: \n',df.isna().count())
+# print('\nSum of null values: \n',df.isnull().sum())
+# print('\nDescribed data: \n',df.describe())
+import matplotlib.pyplot as plt
+plt.boxplot(df['Discussion'])
+plt.show()
+print('\n',df.sample(5))
+list = df[['Gender', 'raisedhands']].groupby('Gender').mean()
+print('\n',list)
+
+
+#ASG3===========================================================================
+import pandas as pd
+#to read data
+df=pd.read_csv("Employee_Salary_Dataset.csv")
+print(df)
+#basic statistical operations
+print('\nFor Experience years:')
+print('Min:',df['Experience_Years'].min())
+print('Max:',df['Experience_Years'].max())
+print('Mean:',df['Experience_Years'].mean())
+print('Mode:',df['Experience_Years'].mode())
+print('Median:',df['Experience_Years'].median())
+print('Standard Deviation:',df['Experience_Years'].std())
+print('\nFor Age:')
+print('Min:',df['Age'].min())
+print('Max:',df['Age'].max())
+print('Mean:',df['Age'].mean())
+print('Mode:',df['Age'].mode())
+print('Median:',df['Age'].median())
+print('Standard Deviation:',df['Age'].std())
+print('\nFor Salary:')
+print('Min:',df['Salary'].min())
+print('Max:',df['Salary'].max())
+print('Mean:',df['Salary'].mean())
+print('Mode:',df['Salary'].mode())
+print('Median:',df['Salary'].median())
+print('Standard Deviation:',df['Salary'].std())
+#to print the graph
+x=df['Experience_Years']
+y=df['Salary']
+import matplotlib.pyplot as plt
+plt.xlabel('Experience_Years')
+plt.ylabel('Salary')
+plt.bar(x, y)
+plt.show()
+print('\nMean salary grouped by gender:')
+print (df['Salary'].groupby(df['Gender']).mean())
+print('\nMean experience years grouped by gender:')
+print (df['Experience_Years'].groupby(df['Gender']).mean())
+print (df.describe())
+
+#Another ONE-----------------
+import pandas as pd
+#to read data
+df=pd.read_csv('iris.csv')
+print(df)
+#print attribute names
+df.columns=['sepal_length','sepal_width','petal_length','petal_width','class']
+print ('\nAttribute names: \n', df.head())
+#to display no. of rows and columns in dataset
+print ('\nNumber of rows and columns in dataset: ', df.shape)
+#to print null info and datatypes of attributes
+print ('\nPrint null info: ', df.info())
+#to check whether its null
+print('\nNumber of null attributes: ')
+print (df.isna().sum())
+#basic statistical operations on sepal length
+print('\nMean:',df['sepal_length'].mean())
+print('Mode:',df['sepal_length'].mode())
+print('Median:',df['sepal_length'].median())
+print('Standard Deviation:',df['sepal_length'].std())
+#to describe dataset
+print ('\nDescribe dataset: \n', df.describe())
+#to show random 10 elements
+print ('\nShow random 10 elements: \n', df.sample(10))
+#median of attributes group by classes
+print ('\nMedian of attributes grouped by class: \n',
+df['sepal_length'].groupby(df['class']).median())
+#basic statistical operations on class using group by method
+print ('\nBasic statistical operations grouped by class: \n',
+df.groupby(df['class']).describe().transpose())
+
+
+#ASG4========================================================
+
+import pandas as pd
+df=pd.read_csv('HousingData.csv')
+print(df)
+print (df.shape)
+print (df.info())
+print (df.isna().sum())
+s=pd.DataFrame(df)
+print(s)
+avg=c=1
+for ele in s["ZN"]:
+    if str(ele).isnumeric():
+        c+=1
+        avg+=ele
+        avg=avg/c
+print("average",avg)
+print('\nFor lstat:')
+print('Min:',df['LSTAT'].min())
+print('Max:',df['LSTAT'].max())
+print('Mean:',df['LSTAT'].mean())
+print('Mode:',df['LSTAT'].mode())
+print('Median:',df['LSTAT'].median())
+print('Standard Deviation:',df['LSTAT'].std())
+#display correlation matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+ax=plt.subplot()
+sns.heatmap(df.corr(),annot=True)
+# plt.heatmap(df.corr(),annot=True)
+plt.show()
+# #find outlayer in dataset using boxplot and remove he outlayer using iqr method
+plt.boxplot(x=df['RM'])
+plt.show()
+plt.boxplot(x=df['LSTAT'])
+plt.show()
+plt.scatter(data=df,x="RM", y="MEDV")
+plt.show()
+plt.scatter(data=df,x="LSTAT", y="MEDV")
+plt.show()
+# #divide the data into training and testing data (80% training, 20% testing)
+X=df[['RM','LSTAT']]
+Y=df['MEDV']
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test=train_test_split(X, Y, test_size=0.2, random_state=42)
+print(X_train.shape)
+
+
+#ASG5==============================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv("Social_Network_Ads.csv")
+print(df)
+# ax=plt.subplot()
+# sns.heatmap(df.corr(),annot=True)
+# plt.show()
+X = df[['Age', 'EstimatedSalary']]
+Y = df['Purchased']
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size= 0.15,random_state=42)
+print(X_train.shape)
+plt.show()
+
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(X_train,Y_train)
+print('Model Score: ' ,model.score(X_test, Y_test))
+from sklearn.preprocessing import MinMaxScaler
+norm = MinMaxScaler().fit(X_train)
+X_train = norm.transform(X_train)
+norm = MinMaxScaler().fit(X_test)
+X_test = norm.transform(X_test)
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+model.fit(X_train,Y_train)
+Y_pred = model.predict(X_test)
+print('Model Score: ' ,model.score(X_test, Y_test))
+from sklearn.metrics import confusion_matrix
+cf_matrix = confusion_matrix(Y_test, Y_pred)
+print(cf_matrix)
+from sklearn.metrics import precision_recall_fscore_support
+score = precision_recall_fscore_support(Y_test, Y_pred, average = 'micro')
+print('Precision of Model: ', score[0])
+print('Recall of Model: ', score[1])
+print('F-Score of Model: ', score[2])
+
+
+#ASG6========================================================
+
+import pandas as pd
+df = pd.read_csv("iris.csv")
+print(df)
+print(df.dtypes)
+print(df.isnull().sum())
+df.columns = ['SepalLength', 'SepalWidth', 'Petallength', 'PetalWidth', 'class']
+var = 'class'
+df[var]=df[var].astype('category')
+print(df.dtypes)
+df[var]=df[var].cat.codes
+print(df.dtypes)
+print(df.isnull().sum())
+import seaborn as sns
+sns.boxplot(df['SepalWidth'])
+def OutlierRemoval(df,var):
+    Q1 = df[var].quantile(0.25)
+    Q3 = df[var].quantile(0.75)
+    IQR = Q3 - Q1
+    high, low = Q3+1.5*IQR, Q1-1.5*IQR
+    print("Highest allowed in variable:", var, high)
+    print("Lowest allowed in variable:", var, low)
+    count = df[(df[var] > high) | (df[var] < low)][var].count()
+    print('Total outliers in:',var,':',count)
+    df = df[((df[var] >= low) & (df[var] <= high))]
+    return df
+print(df.shape)
+df = OutlierRemoval(df,'SepalWidth')
+print(df.shape)
+import matplotlib.pyplot as plt
+sns.heatmap(df.corr(), annot=True)
+plt.show()
+import numpy as np
+X = df.iloc[:, [0,1,2,3]].values
+y = df.iloc[:, 4].values
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= 0.20, random_state=0)
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.fit_transform(X_test)
+from sklearn.naive_bayes import BernoulliNB
+classifer = BernoulliNB()
+classifer.fit(X_train, y_train)
+y_pred = classifer.predict(X_test)
+from sklearn.metrics import accuracy_score
+print('Accuracy Score:',y_pred, y_test)
+from sklearn.naive_bayes import GaussianNB
+classifer1 = GaussianNB()
+classifer1.fit(X_train, y_train)
+y_pred1 = classifer1.predict(X_test)
+print(accuracy_score(y_pred, y_test))
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix = cm)
+disp.plot()
+plt.show()
+sns.heatmap(cm, annot=True)
+plt.savefig('confusion.png')
+from sklearn.metrics import classification_report
+print(classification_report(y_test, y_pred))
+
+#ASG7==========================================
+#Assigment 7 Text processing and calculation of TF-IDF
+
+import nltk
+import re
+
+nltk.download("punkt")
+nltk.download("stopwords")
+nltk.download("wordnet")
+nltk.download("averaged_perceptron_tagger")
+nltk.download("omw-1.4")
+
+text ="Tokenization is the first step in text analytics. The process of breaking down a text par"
+
+#Sentence Tokenization.
+from nltk.tokenize import sent_tokenize
+tokenized_text=sent_tokenize(text)
+print(tokenized_text)
+
+#Word Tokenization
+from nltk.tokenize import word_tokenize
+tokenized_word=word_tokenize(text)
+print(tokenized_word)
+
+#Print stop words of English
+from nltk.corpus import stopwords
+stop_words=set(stopwords.words("english"))
+print(stop_words)
+
+text: "How to remove stop words with NLTK Library in Python?"
+text= re.sub("[^a-zA-Z]"," ",text)
+tokens = word_tokenize(text.lower ())
+filtered_text=[]
+
+for w in tokens:
+    if w not in stop_words:
+        filtered_text.append(w)
+print ("Tokenized Sentence:", tokens)
+print ("Filterd Sentence:", filtered_text)
+
+from nltk.stem import PorterStemmer
+e_words= ["wait", "waiting", "waited", "waits"]
+ps=PorterStemmer()
+for w in e_words:
+    rootWord=ps.stem(w)
+print(rootWord)
+
+from nltk.stem import WordNetLemmatizer
+wordnet_lemmatizer= WordNetlemmatizer()
+text = "studies studying cries cry"
+tokenization=nltk.word_tokenize(text)
+for w in tokenization:
+    print("Lemma for () is ".format(w, wordnet_lemmatizer, lemmatize[w]))
+
+from nltk.tokenize import word_tokenize
+data="The pink sweater fit her perfectly"
+words=word_tokenize(data)
+for word in words:
+    print(nltk.pos_tag([word]))
+
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+d0="Jupiter is the largest Planet"
+d1="Mars is the fourth planet from the Sun"
+string=[d0,d1]
+tfidf =Tfidfvectorizer()
+result = tfidf.fit_transform(string)
+print("Word indices:", tfidf.vocabulary)
+print("TF-IDF Values:", result)
+
+
+
+
+#ASG8=======================================================
+
+#Assignment no. 8 Data Visualization on Titanic Dataset (Histogram)
+
+#import libraries
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+#Read Dataset
+df=pd.read_csv(r"C:\Users\niraj\Downloads\titanic.csv")
+print("Titanic dataset is successfully loaded into Data Frame....")
+
+
+#Display information of dataset
+print( "Information of Dataset: \n", df.info)
+print( "Shape of Dataset (row x column):",df.shape)
+print( "Columns Name:", df.columns)
+print( "Total elements in dataset:", df.size)
+print( "Datatype of attributes (columns):", df.dtypes)
+print( "First 5 rows: \n", df.head().T)
+print( "Last 5 rows:\n",df.tail().T)
+print( "Any 5 rows: \n",df.sample(5).T)
+
+#Find missing values
+print ("Missing values")
+print(df.isnull().sum())
+
+#Fill the missing values
+df ["Age"].fillna (df["Age"].median(), inplace=True)
+print ("Null values are: \n",df.isnull().sum())
+
+#Histogram of 1-variable
+fig, axes= plt.subplots(1,2)
+fig. suptitle(" Histogram 1-variables (Age & Fare)")
+sns. histplot(data=df, x="Age", ax=axes[0])
+sns. histplot(data=df, x="Fare", ax=axes [1])
+plt.show()
+
+#Histogram of 2-variables
+fig, axes =plt.subplots(2,2)
+fig.suptitle( "Histogram of 2-variables")
+sns.histplot(data = df, x="Age",hue="Survived", multiple="dodge", ax=axes[0,0])
+sns.histplot(data = df, x="Fare",hue="Survived", multiple="dodge", ax=axes[0,1])
+sns.histplot(data = df, x="Age",hue="Sex", multiple= "dodge", ax=axes[1,0])
+sns.histplot(data = df, x="Fare", hue="Sex", multiple="dodge", ax=axes [1, 1])
+plt.show()
+
+
+
+#ASG9=======================================================
+
+# Assignment no. 9 Data Visualization on Titanic Dataset (Boxplot)
+
+#import libraries
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+#Read Dataset
+df=pd.read_csv(r"C:\Users\niraj\Downloads\titanic.csv")
+print("Titanic dataset is successfully loaded into Data Frame....")
+
+
+#Display information of dataset
+print( "Information of Dataset: \n", df.info)
+print( "Shape of Dataset (row x column):",df.shape)
+print( "Columns Name:", df.columns)
+print( "Total elements in dataset:", df.size)
+print( "Datatype of attributes (columns):", df.dtypes)
+print( "First 5 rows: \n", df.head().T)
+print( "Last 5 rows:\n",df.tail().T)
+print( "Any 5 rows: \n",df.sample(5).T)
+
+#Find missing values
+print ("Missing values")
+print(df.isnull().sum())
+
+#Fill the missing values
+df ["Age"].fillna (df["Age"].median(), inplace=True)
+print ("Null values are: \n",df.isnull().sum())
+
+#Boxplot of 1-variable
+fig, axes =plt.subplots(1,2)
+fig.suptitle("Boxplot of 1-variables (Age & Fare)")
+sns.boxplot (data =df, x="Age", ax=axes[0])
+sns.boxplot (data =df, x="Fare",ax=axes[1])
+plt.show()
+
+#Boxplot of 2-variables
+fig, axes =plt.subplots(2,2)
+fig.suptitle("Boxplot of 2-variables")
+sns.boxplot (data = df, x="Survived", y="Age", hue="Survived", ax=axes[0,0])
+sns.boxplot (data = df, x="Survived", y="Fare", hue="Survived",ax=axes[0,1])
+sns.boxplot (data = df, x="Sex", y="Age", hue= "Sex", ax=axes[1,0])
+sns.boxplot (data = df, x="Sex", y="Fare", hue="Sex", ax=axes[1,1])
+plt.show()
+
+#Boxplot of 3-variables
+fig, axes= plt.subplots(1,2)
+fig.suptitle("Boxplot of 3-variables")
+sns.boxplot (data=df, x="Sex", y="Age", hue="Survived", ax=axes[0])
+sns. boxplot(data=df, x = "Sex", y="Fare",hue="Survived", ax=axes [1])
+plt.show()
+
+
+#ASG10=======================================================
+
+#ssignment no, 10 Data Visualization on IRIS Dataset (Histogram & Boxplot)
+
+#import libraries
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+#Read Dataset
+df=pd.read_csv(r"C:\Users\niraj\Downloads\iris - 2023-05-20T153708.481.csv")
+print("iris dataset is successfully loaded into Data Frame....")
+
+
+#Display information of dataset
+print( "Information of Dataset: \n", df.info)
+print( "Shape of Dataset (row x column):",df.shape)
+print( "Columns Name:", df.columns)
+print( "Total elements in dataset:", df.size)
+print( "Datatype of attributes (columns):", df.dtypes)
+print( "First 5 rows: \n", df.head().T)
+print( "Last 5 rows:\n",df.tail().T)
+print( "Any 5 rows: \n",df.sample(5).T)
+
+#Find missing values
+print ("Missing values")
+print(df.isnull().sum())
+
+#Histogram of 1-variable
+fig, axes= plt.subplots(2,2)
+fig.suptitle("Histogram 1-variables")
+sns.histplot(data=df,x="sepal.length", ax=axes[0,0])
+sns.histplot(data=df,x="sepal.width", ax=axes [0,1])
+sns.histplot(data=df,x="petal.length", ax=axes[1,0])
+sns.histplot(data=df,x="petal.width", ax=axes[1,1])
+plt.show()
+
+#Histogram of 2-variables
+fig, axes =plt.subplots(2,2)
+fig.suptitle("Histogram of 2-variables")
+sns.histplot(data=df, x="sepal.length",hue="variety", multiple="dodge", ax=axes[0,0])
+sns.histplot(data=df, x="sepal.width",hue="variety", multiple="dodge", ax=axes[0,1])
+sns.histplot(data=df, x="petal.length",hue="variety", multiple ="dodge",ax=axes[1,0])
+sns.histplot(data=df, x="petal.width",hue="variety", multiple="dodge", ax=axes[1,1])
+plt.show()
+
+#Boxplot of 1-variable.
+fig, axes= plt.subplots(2,2)
+fig.suptitle("Boxplot of 1-variables")
+sns.histplot(data=df,x="sepal.length", ax=axes[0,0])
+sns.histplot(data=df,x="sepal.width", ax=axes [0,1])
+sns.histplot(data=df,x="petal.length", ax=axes[1,0])
+sns.histplot(data=df,x="petal.width", ax=axes[1,1])
+plt.show()
+
+
+#Boxplot of 2-variables
+fig, axes =plt.subplots(2,2)
+fig.suptitle("Histogram of 2-variables")
+sns.histplot(data=df, x="sepal.length",y="variety", hue="variety", ax=axes[0,0])
+sns.histplot(data=df, x="sepal.width",y="variety", hue="variety", ax=axes[0,1])
+sns.histplot(data=df, x="petal.length",y="variety", hue="variety",ax=axes[1,0])
+sns.histplot(data=df, x="petal.width",y="variety", hue="variety", ax=axes[1,1])
+plt.show()
+
